@@ -6,19 +6,15 @@ const employee = new Schema(
   {
     firstName: {
       type: String,
-      
     },
     lastName: {
       type: String,
-      
     },
     email: {
       type: String,
-      
     },
     phone: {
       type: Number,
-      
     },
     status: {
       type: String,
