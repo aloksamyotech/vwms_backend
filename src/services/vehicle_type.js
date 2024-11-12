@@ -35,11 +35,11 @@ export const findVehicleById = async (req) => {
 
 export const getAllVehicle = async () => {
   try {
-   return await VehicleType.find({
+    return await VehicleType.find({
       active: true,
-    }).sort({ updatedAt: -1 }).lean()
-
-   
+    })
+      .sort({ updatedAt: -1 })
+      .lean();
   } catch (error) {
     throw new Error(`${errorMessage.notFound}`);
   }

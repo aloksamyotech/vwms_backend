@@ -22,7 +22,6 @@ const employee = new Schema(
     },
     slot_time: {
       type: String,
-      default : 'hello'
     },
     active: {
       type: Boolean,
