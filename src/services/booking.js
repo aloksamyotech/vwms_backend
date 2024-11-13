@@ -236,7 +236,6 @@ export const createBooking = async (req) => {
       payment: paymentData,
     };
   } catch (error) {
-    console.error("Error occurred:", error);
     throw new Error("An error occurred during booking.");
   }
 };
@@ -352,8 +351,8 @@ export const getAllBookings = async () => {
       {
         $lookup: {
           from: "employees",
-          as: "employees",
-          localField: "employees",
+          as: "employee",
+          localField: "employee",
           foreignField: "_id",
         },
       },
@@ -399,29 +398,41 @@ export const updateBooking = async (req, res) => {
       employee: assignedTo,
     };
 
-    const isAvailable = await checkAvailability(slot_time, assignedTo);
-    if (!isAvailable) {
-      return { status: 400, message: errorMessage.slot_unavailable };
+    const isAvailable = await checkAvailability(slot_time, assignedTo, id);
+    const isEmployee = await checkEmployee(assignedTo, id);
+
+    if (!isEmployee) {
+      if (!isAvailable) {
+        return {
+          status: 200,
+          message: errorMessage.slot_unavailable,
+          errorCode: 400,
+        };
+      }
     }
     const response = await Bookings.findByIdAndUpdate(id, updatedData, {
       new: true,
     });
     if (!response) {
-      return { status: 500, message: errorMessage.notFound };
+      return { status: 200, message: errorMessage.notFound, errorCode: 500 };
     }
     return response;
   } catch (error) {
     throw new Error(`${errorMessage.notUpdated}`);
   }
 };
-
-export async function checkAvailability(slot, employee) {
+export async function checkAvailability(slot, employee, id) {
   const employeeBooking = await Bookings.find({
     employee: employee,
     slot_time: slot,
   });
-
-  return !employeeBooking?.length;
+  return employeeBooking?.length === 0;
+}
+export async function checkEmployee(employee, id) {
+  const employeeFind = await Bookings.findById(id);
+  if (employee == employeeFind?.employee) {
+    return true;
+  }
 }
 
 export const bookingReport = async (req, res) => {
@@ -432,7 +443,6 @@ export const bookingReport = async (req, res) => {
 
   parsedEndDate.setHours(23, 59, 59, 999);
 
-  console.log(`Fetching bookings between ${startDate} and ${endDate}`);
   try {
     const newBooking = await Bookings.aggregate([
       {
@@ -494,11 +504,8 @@ export const bookingReport = async (req, res) => {
       },
       { $sort: { updatedAt: -1 } },
     ]);
-
-    console.log(`newBooking---------------->>>>>>`, newBooking);
     return newBooking;
   } catch (error) {
-    console.error(`error`, error);
     throw new Error(`${errorMessage.notCreated}`);
   }
 };

@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 
 const bookings = new Schema(
   {
-    bookingId : {
-      type : String,
+    bookingId: {
+      type: String,
     },
     services: {
       type: mongoose.Schema.Types.ObjectId,
@@ -29,7 +29,7 @@ const bookings = new Schema(
 
     payment: {
       type: mongoose.Schema.Types.ObjectId,
-      ref : tableNames.payment,
+      ref: tableNames.payment,
     },
     serviceStatus: {
       type: String,

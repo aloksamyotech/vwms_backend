@@ -20,7 +20,6 @@ export const editPayments = async (req) => {
     }
     return response;
   } catch (error) {
-    console.log(`error ${error}`);
     throw new Error(`${errorMessage.notUpdated}`);
   }
 };

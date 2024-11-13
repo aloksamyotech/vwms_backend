@@ -12,5 +12,4 @@ router.post("/create", createOutOfService);
 router.get("/all", getAllOutOfServices);
 router.delete("/delete/:id", deleteOutOfServices);
 
-
-export default router
+export default router;

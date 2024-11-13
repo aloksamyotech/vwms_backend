@@ -1,8 +1,8 @@
-import express from "express"
-import { editPayments } from "../controllers/payments.js"
+import express from "express";
+import { editPayments } from "../controllers/payments.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.patch("/edit/:id",editPayments)
+router.patch("/edit/:id", editPayments);
 
-export default router
+export default router;

@@ -2,8 +2,6 @@ import { statusCodes } from "../common/const.js";
 import * as outOfService from "../services/out_of_service.js";
 
 export const createOutOfService = async (req, res) => {
-    
-    
   try {
     const newOutOfService = await outOfService.createOutOfService(req);
     res.status(statusCodes.created).json(newOutOfService);

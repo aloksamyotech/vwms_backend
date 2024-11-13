@@ -17,7 +17,6 @@ export const getPackage = async (req, res) => {
     const allPackage = await packages.getPackage();
     res.status(statusCodes.ok).json(allPackage);
   } catch (error) {
-    console.log(error);
     res.status(statusCodes.notFound).json({ message: error.message });
   }
 };

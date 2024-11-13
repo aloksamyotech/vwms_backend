@@ -33,9 +33,9 @@ const packages = new Schema(
       ref: tableNames.vehicleType,
       required: true,
     },
-    status : {
-      type : String,
-      default : "Active"
+    status: {
+      type: String,
+      default: "Active",
     },
     active: {
       type: Boolean,

@@ -23,17 +23,16 @@ export const getAllInEx = async (req, res) => {
   }
 };
 
-
-export const editInAndEx = async(req,res) =>{
-  
-  
+export const editInAndEx = async (req, res) => {
   try {
-    const inAndEx = await inExFeatures.editInAndEx(req)
-    res.status(statusCodes.ok).json(inAndEx)
+    const inAndEx = await inExFeatures.editInAndEx(req);
+    res.status(statusCodes.ok).json(inAndEx);
   } catch (error) {
-    res.status(statusCodes.internalServerError).json({message : error.message})
+    res
+      .status(statusCodes.internalServerError)
+      .json({ message: error.message });
   }
-}
+};
 
 export const deleteInAndEx = async (req, res) => {
   try {

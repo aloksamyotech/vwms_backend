@@ -21,8 +21,6 @@ export const sendEmail = (
   paymentMethod,
   dateSelected
 ) => {
-  console.log(`bookingData`, bookingData);
-
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -57,7 +55,6 @@ export const sendEmail = (
         console.error("Error occurred while sending email:", error);
         reject(error);
       } else {
-        console.log("Email sent Successfully:", info.response);
         resolve(info.response);
       }
     });
