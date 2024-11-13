@@ -2,8 +2,6 @@ import { errorMessage } from "../common/const.js";
 import Employee from "../models/employee.js";
 
 export const createEmployee = async (req) => {
-  console.log(`req`, req?.body);
-
   try {
     const { firstName, lastName, email, phone } = req?.body;
     const isEmployeeAlreadyExist = await Employee.findOne({ email });
@@ -23,7 +21,7 @@ export const createEmployee = async (req) => {
 
 export const getAllEmployee = async () => {
   try {
-    return await Employee.find();
+    return await Employee.find().sort({ updatedAt: -1 });
   } catch (err) {
     throw new Error(`${errorMessage.userNotGet} ${err}`);
   }
@@ -44,7 +42,4 @@ export const updateEmployee = async (req) => {
   } catch (err) {
     throw new Error(`${errorMessage.notUpdated} ${err}`);
   }
-
 };
-
-

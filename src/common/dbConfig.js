@@ -1,9 +1,7 @@
-import mongoose from "mongoose"
-import 'dotenv/config';
+import mongoose from "mongoose";
+import "dotenv/config";
 
-const dbURL = process.env.CONNECTION_URL  
-// console.log("dbURL-->",dbURL)
-
+const dbURL = process.env.CONNECTION_URL;
 
 const connectDB = async () => {
   try {
@@ -16,7 +14,4 @@ const connectDB = async () => {
   }
 };
 
-
-
-
-export default connectDB
+export default connectDB;

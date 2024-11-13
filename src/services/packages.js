@@ -22,7 +22,7 @@ export const createPackage = async (req) => {
 export const updatePackage = async (req) => {
   try {
     const { id } = req?.params;
-    const { desc, hours, minutes, name, status,price, type } = req?.body;
+    const { desc, hours, minutes, name, status, price, type } = req?.body;
 
     const updatedData = {
       desc,
@@ -33,7 +33,7 @@ export const updatePackage = async (req) => {
       status,
       vehicleType: type,
     };
-    console.log("updatedData", updatedData);
+
     const response = await Packages.findByIdAndUpdate(id, updatedData, {
       new: true,
     });
@@ -65,7 +65,6 @@ export const getPackage = async () => {
 
     return newData;
   } catch (error) {
-    console.log(error);
     throw new Error(`${errorMessage.userNotGet}`);
   }
 };

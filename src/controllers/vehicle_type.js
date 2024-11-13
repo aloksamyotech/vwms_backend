@@ -12,15 +12,16 @@ export const createVehicle = async (req, res) => {
   }
 };
 
-export const updateStatus = async (req,res)=>{
+export const updateStatus = async (req, res) => {
   try {
-    const status = await vehicleFeatures.updateStatus(req)
-    res.status(statusCodes.ok).json(status)
+    const status = await vehicleFeatures.updateStatus(req);
+    res.status(statusCodes.ok).json(status);
   } catch (error) {
-    res.status(statusCodes.internalServerError).json({message : error.message})
+    res
+      .status(statusCodes.internalServerError)
+      .json({ message: error.message });
   }
-}
-
+};
 
 export const getVehicleById = async (req, res) => {
   try {

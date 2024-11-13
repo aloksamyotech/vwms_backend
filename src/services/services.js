@@ -30,12 +30,13 @@ export const getAllServices = async () => {
 export const editServices = async (req) => {
   try {
     const { id } = req?.params;
-    const { name, desc, price, hours,status, minutes } = req?.body;
+    const { name, desc, price, hours, status, minutes } = req?.body;
     const updatedData = {
       name,
       desc,
       price,
-      hours,status,
+      hours,
+      status,
       minutes,
     };
     const response = await Services.findByIdAndUpdate(id, updatedData, {

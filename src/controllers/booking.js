@@ -29,7 +29,6 @@ export const getAllBookings = async (req, res) => {
   }
 };
 
-
 export const bookingReport = async (req, res) => {
   try {
     const allBooking = await bookings.bookingReport(req);
@@ -42,7 +41,7 @@ export const bookingReport = async (req, res) => {
 export const updateBooking = async (req, res) => {
   try {
     const newBooking = await bookings.updateBooking(req);
-    console.log(newBooking);
+
     if (newBooking.status == 500 || newBooking.status == 400) {
       res.status(newBooking.status).json({ message: newBooking?.message });
     } else {
