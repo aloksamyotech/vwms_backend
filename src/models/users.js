@@ -21,6 +21,14 @@ const userSchema = new mongoose.Schema({
     default: "employee",
   },
   permissions: { type: permissionsSchema, required: true },
+  active : {
+    type : String,
+    default : "Active"
+  },
+  status : {
+    type : String,
+    default : "Active"
+  }
 });
 
 const User = mongoose.model("User", userSchema);
