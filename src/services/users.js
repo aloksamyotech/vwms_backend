@@ -7,27 +7,36 @@ const JWT_SECRET = "JWT_SECRET";
 export const createUser = async (req) => {
   try {
     const { name, email, password, role, permissions } = req?.body;
+    console.log(`req?.body`, req?.body);
 
-    const isUserAlreadyExist = await User.findOne({ email: email });
-
+    const isUserAlreadyExist = await User.findOne({ email });
     if (isUserAlreadyExist) {
       return {
-        message: errorMessage.alreadyExist,
+        message:
+          errorMessage.alreadyExist || "User with this email already exists.",
       };
     } else {
       const hashedPassword = encryptText(password);
-
       const newUser = new User({
         name,
         email,
         password: hashedPassword,
-        role,
+        role: role || "employee",
         permissions,
       });
-      return await newUser.save();
+      const savedUser = await newUser.save();
+      return {
+        message: "User successfully created.",
+        user: savedUser,
+      };
     }
   } catch (err) {
-    throw new Error(`${errorMessage.notCreated}  ${err}`);
+    console.error("Error while creating user:", err);
+    throw new Error(
+      `${errorMessage.notCreated || "User could not be created."} ${
+        err.message
+      }`
+    );
   }
 };
 
