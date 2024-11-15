@@ -36,6 +36,14 @@ export const loginUser = async (req) => {
   try {
     const { email, password } = req.body;
     const isUser = await User.findOne({ email: email });
+    let activePermissions = [];
+    if (isUser) {
+      for (let permission in isUser.permissions) {
+        if (isUser.permissions[permission] === true) {
+          activePermissions.push(permission);
+        }
+      }
+    }
     if (!isUser) {
       return {
         message: errorMessage.notRegistered,
@@ -48,12 +56,12 @@ export const loginUser = async (req) => {
         message: errorMessage.wrongPassword,
       };
     }
-
     const payload = {
       _id: isUser._id,
       name: isUser.name,
       email: isUser.email,
       role: isUser.role,
+      permissions: activePermissions,
     };
 
     const token = jwt.sign(payload, JWT_SECRET);
@@ -73,15 +81,16 @@ export const getAllUsers = async () => {
   try {
     return await User.find();
   } catch (err) {
-    throw new Error(`${errorMessage.userNotGet} ${err}`);
+    throw new Error(`${errorMessage.userNotGet}`);
   }
 };
 
 export const updateUser = async (req) => {
   try {
     const { id } = req?.params;
-    const { name, role } = req?.body;
-    const updateData = { name, role };
+    const { name, role, permissions } = req?.body;
+
+    const updateData = { name, role, permissions };
     const response = await User.findByIdAndUpdate(id, updateData, {
       new: true,
     });
@@ -90,14 +99,6 @@ export const updateUser = async (req) => {
     }
     return response;
   } catch (err) {
-    throw new Error(`${errorMessage.notUpdated} ${err}`);
+    throw new Error(`${errorMessage.notUpdated}`);
   }
 };
-
-// export const deleteUserById = async (id) => {
-//   try {
-//     return await User.findByIdAndDelete(id);
-//   } catch (err) {
-//     throw new Error(`${errorMessage.notDeleted} ${err}`);
-//   }
-// };

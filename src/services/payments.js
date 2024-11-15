@@ -23,3 +23,20 @@ export const editPayments = async (req) => {
     throw new Error(`${errorMessage.notUpdated}`);
   }
 };
+
+export const allPayments = async (req) => {
+  try {
+    return await Payments.aggregate([
+      {
+        $lookup: {
+          from: "customers",
+          as: "customer",
+          localField: "customer",
+          foreignField: "_id",
+        },
+      },
+    ]);
+  } catch (error) {
+    throw new Error(`${errorMessage.notFound}`);
+  }
+};
