@@ -8,26 +8,27 @@ export const createUser = async (req) => {
   try {
     const { name, email, password, role, permissions } = req?.body;
 
-    const isUserAlreadyExist = await User.findOne({ email: email });
-
+    const isUserAlreadyExist = await User.findOne({ email });
     if (isUserAlreadyExist) {
       return {
         message: errorMessage.alreadyExist,
       };
     } else {
       const hashedPassword = encryptText(password);
-
       const newUser = new User({
         name,
         email,
         password: hashedPassword,
-        role,
+        role: role,
         permissions,
       });
-      return await newUser.save();
+      const savedUser = await newUser.save();
+      return {
+        user: savedUser,
+      };
     }
   } catch (err) {
-    throw new Error(`${errorMessage.notCreated}  ${err}`);
+    throw new Error(`${errorMessage.notCreated}`);
   }
 };
 

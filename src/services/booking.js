@@ -293,7 +293,7 @@ export const getTodayBookings = async () => {
       },
       {
         $lookup: {
-          from: "employees",
+          from: "users",
           as: "employee",
           localField: "employee",
           foreignField: "_id",
@@ -350,7 +350,7 @@ export const getAllBookings = async () => {
       },
       {
         $lookup: {
-          from: "employees",
+          from: "users",
           as: "employee",
           localField: "employee",
           foreignField: "_id",
@@ -464,7 +464,7 @@ export const bookingReport = async (req, res) => {
       },
       {
         $lookup: {
-          from: "employees",
+          from: "users",
           as: "employee",
           localField: "employee",
           foreignField: "_id",

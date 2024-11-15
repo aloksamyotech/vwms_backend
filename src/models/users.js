@@ -1,39 +1,36 @@
 import mongoose from "mongoose";
-import { tableNames } from "../common/const.js";
-const Schema = mongoose.Schema;
 
-const user = new Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-    },
-    role: {
-      type: String,
-      required: true,
-      default: "user",
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    status: {
-      type: String,
-      default: "Active",
-    },
-    permission: [],
-    active: {
-      type: Boolean,
-      default: true,
-    },
+const permissionsSchema = new mongoose.Schema({
+  vehicleType: { type: Boolean, default: false },
+  serviceList: { type: Boolean, default: false },
+  packages: { type: Boolean, default: false },
+  bookings: { type: Boolean, default: false },
+  paymentTransaction: { type: Boolean, default: false },
+  outOfService: { type: Boolean, default: false },
+  incomeExpense: { type: Boolean, default: false },
+  users: { type: Boolean, default: false },
+  reports: { type: Boolean, default: false },
+});
+
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  role: {
+    type: String,
+    default: "employee",
   },
-  { timestamps: true }
-);
+  permissions: { type: permissionsSchema, required: true },
+  active : {
+    type : String,
+    default : "Active"
+  },
+  status : {
+    type : String,
+    default : "Active"
+  }
+});
 
-const User = mongoose.model(tableNames.users, user);
+const User = mongoose.model("User", userSchema);
 
 export default User;
