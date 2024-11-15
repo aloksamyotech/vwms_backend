@@ -236,7 +236,7 @@ export const createBooking = async (req) => {
       payment: paymentData,
     };
   } catch (error) {
-    throw new Error("An error occurred during booking.");
+    throw new Error(`${errorMessage.notFound}`);
   }
 };
 
@@ -393,21 +393,22 @@ export const updateBooking = async (req, res) => {
     const { id } = req?.params;
     const { status, assignedTo, slot_time } = req?.body;
 
-    const updatedData = {
+    let updatedData = {
       serviceStatus: status,
-      employee: assignedTo,
     };
 
-    const isAvailable = await checkAvailability(slot_time, assignedTo, id);
-    const isEmployee = await checkEmployee(assignedTo, id);
-
-    if (!isEmployee) {
-      if (!isAvailable) {
-        return {
-          status: 200,
-          message: errorMessage.slot_unavailable,
-          errorCode: 400,
-        };
+    if (!assignedTo == "") {
+      updatedData["employee"] = assignedTo;
+      var isEmployee = await checkEmployee(assignedTo, id);
+      var isAvailable = await checkAvailability(slot_time, assignedTo, id);
+      if (!isEmployee) {
+        if (!isAvailable) {
+          return {
+            status: 200,
+            message: errorMessage.slot_unavailable,
+            errorCode: 400,
+          };
+        }
       }
     }
     const response = await Bookings.findByIdAndUpdate(id, updatedData, {
@@ -506,6 +507,6 @@ export const bookingReport = async (req, res) => {
     ]);
     return newBooking;
   } catch (error) {
-    throw new Error(`${errorMessage.notCreated}`);
+    throw new Error(`${errorMessage.notFound}`);
   }
 };

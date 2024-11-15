@@ -65,3 +65,30 @@ export const deleteInAndEx = async (req) => {
     throw new Error(`${errorMessage.notDeleted}`);
   }
 };
+
+export const IncomeAndExpenseReport = async (req, res) => {
+  const { startDate, endDate } = req.params;
+
+  const parsedStartDate = new Date(startDate);
+  const parsedEndDate = new Date(endDate);
+
+  parsedEndDate.setHours(23, 59, 59, 999);
+
+  try {
+    const report = await IncomeAndExpense.aggregate([
+      {
+        $match: {
+          active: true,
+          createdAt: {
+            $gte: parsedStartDate,
+            $lte: parsedEndDate,
+          },
+        },
+      },
+      { $sort: { updatedAt: -1 } },
+    ]);
+    return report;
+  } catch (error) {
+    throw new Error(`${errorMessage.notFound}`);
+  }
+};

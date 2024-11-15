@@ -11,3 +11,14 @@ export const editPayments = async (req, res) => {
       .json({ message: error.message });
   }
 };
+
+export const allPayments = async (req, res) => {
+  try {
+    const payment = await payments.allPayments();
+    res.status(statusCodes.ok).json(payment);
+  } catch (error) {
+    res
+      .status(statusCodes.internalServerError)
+      .json({ message: error.message });
+  }
+};

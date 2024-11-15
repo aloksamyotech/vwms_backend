@@ -44,3 +44,14 @@ export const deleteInAndEx = async (req, res) => {
       .json({ message: error.message });
   }
 };
+
+export const IncomeAndExpenseReport = async (req, res) => {
+  try {
+    const response = await inExFeatures.IncomeAndExpenseReport(req);
+    res.status(statusCodes.ok).json(response);
+  } catch (error) {
+    res
+      .status(statusCodes.internalServerError)
+      .json({ message: error.message });
+  }
+};
